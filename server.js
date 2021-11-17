@@ -29,11 +29,12 @@ app.get("/app/", (req, res, next) => {
 // CREATE a new user (HTTP method POST) at endpoint /app/new/
 app.post("/app/new/user", (req, res, next) => {	
 	var data = {
+		id: req.body.id,
 		user: req.body.user,
 		pass: req.body.pass ? md5(req.body.pass) : null
 	}
-	const stmt = db.prepare("INSERT INTO userinfo (user, pass) VALUES (?, ?)");
-	const info = stmt.run(data.user, data.pass);
+	const stmt = db.prepare("INSERT INTO userinfo (id, user, pass) VALUES (?, ?, ?)");
+	const info = stmt.run(data.id, data.user, data.pass);
 	res.status(201).json({"message":info.changes+" record created: ID "+info.lastInsertRowid+ " (201)"});
 
 });
