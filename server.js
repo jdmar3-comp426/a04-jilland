@@ -28,12 +28,11 @@ app.get("/app/", (req, res, next) => {
 
 // CREATE a new user (HTTP method POST) at endpoint /app/new/
 app.post("/app/new", (req, res) => {
-		id = req.params.id,	
 		user = req.body.user,
 		pass = md5(req.body.pass)
 	const stmt = db.prepare("INSERT INTO userinfo (user, pass) VALUES (?, ?)");
 	const info = stmt.run(user, pass);
-	res.json({"message": "1 record created: ID "+ id + " (201)"});
+	res.json({"message": "1 record created: ID "+info.lastInsertRowid+ " (201)"});
 });
 
 // given in template
