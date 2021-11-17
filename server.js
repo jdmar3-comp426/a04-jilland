@@ -52,14 +52,12 @@ app.get("/app/user/:id", (req, res) => {
 
 // UPDATE a single user (HTTP method PATCH) at endpoint /app/update/user/:id
 app.patch("/app/update/user/:id", (req, res) => {
-	var data = {
-		id: req.body.id,
-		user: req.body.user,
-		pass: req.body.pass ? md5(req.body.pass) : null
-	}
+		id = req.body.id,
+		user = req.body.user,
+		pass = md5(req.body.pass)
 	const stmt = db.prepare("UPDATE userinfo SET user = COALESCE(?, user), pass = COALESCE(?, pass) WHERE id = ?");
-	const info = stmt.run(data.id, data.user, data.pass);
-	res.status(201).json({"message": "1 record updated: ID "+info.lastInsertRowid+ " (200)"});
+	const info = stmt.run(user, pass, id);
+	res.status(200).json({"message": "1 record updated: ID "+ id + " (200)"});
 
 
 });
