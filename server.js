@@ -59,7 +59,7 @@ app.patch("/app/update/user/:id", (req, res) => {
 	}
 	const stmt = db.prepare("UPDATE userinfo SET user = COALESCE(?, user), pass = COALESCE(?, pass) WHERE id = ?");
 	const info = stmt.run(data.id, data.user, data.pass);
-	res.status(201).json({"message":info.changes+" record created: ID "+info.lastInsertRowid+ " (201)"});
+	res.status(201).json({"message": "1 record updated: ID "+info.lastInsertRowid+ " (200)"});
 
 
 });
