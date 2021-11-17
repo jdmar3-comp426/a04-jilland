@@ -29,9 +29,9 @@ app.get("/app/", (req, res, next) => {
 // CREATE a new user (HTTP method POST) at endpoint /app/new/
 app.post("/app/new/user", (req, res, next) => {	
 	var data = {
-		id: req.body.id,
-		user: req.body.user,
-		pass: req.body.pass ? md5(req.body.pass) : null
+		id: req.params.id,
+		user: req.params.user,
+		pass: req.params.pass ? md5(req.params.pass) : null
 	}
 	const stmt = db.prepare("INSERT INTO userinfo (id, user, pass) VALUES (?, ?, ?)");
 	const info = stmt.run(data.id, data.user, data.pass);
@@ -56,11 +56,12 @@ app.get("/app/user/:id", (req, res) => {
 // UPDATE a single user (HTTP method PATCH) at endpoint /app/update/user/:id
 app.patch("/app/update/user/:id", (req, res) => {
 	var data = {
+		id: req.body.id,
 		user: req.body.user,
 		pass: req.body.pass ? md5(req.body.pass) : null
 	}
 	const stmt = db.prepare("UPDATE userinfo SET user = COALESCE(?, user), pass = COALESCE(?, pass) WHERE id = ?");
-	const info = stmt.run(data.user, data.pass);
+	const info = stmt.run(data.id, data.user, data.pass);
 	res.status(201).json({"message":info.changes+" record created: ID "+info.lastInsertRowid+ " (201)"});
 
 
