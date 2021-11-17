@@ -27,7 +27,7 @@ app.get("/app/", (req, res, next) => {
 // Define other CRUD API endpoints using express.js and better-sqlite3
 
 // CREATE a new user (HTTP method POST) at endpoint /app/new/
-app.get("/app/new/user", (req, res) => {	
+app.post("/app/new/user", (req, res) => {	
 	var data = {
 		user: req.body.user,
 		pass: req.body.pass ? md5(req.body.pass) : null
@@ -59,6 +59,7 @@ app.patch("/app/update/user/:id", (req, res) => {
 	}
 	const stmt = db.prepare("UPDATE userinfo SET user = COALESCE(?, user), pass = COALESCE(?, pass) WHERE id = ?");
 	const info = stmt.run(data.user, data.pass);
+	res.status()
 
 });
 
