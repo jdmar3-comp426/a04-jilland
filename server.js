@@ -34,6 +34,7 @@ app.post("/app/new/user", (req, res) => {
 	}
 	const stmt = db.prepare("INSERT INTO userinfo (user, pass) VALUES (?, ?)");
 	const info = stmt.run(data.user, data.pass);
+	res.status(201).json({"message":info.changes+" record created: ID "+info.lastInsertRowid+ " (201)"});
 
 });
 
@@ -59,7 +60,8 @@ app.patch("/app/update/user/:id", (req, res) => {
 	}
 	const stmt = db.prepare("UPDATE userinfo SET user = COALESCE(?, user), pass = COALESCE(?, pass) WHERE id = ?");
 	const info = stmt.run(data.user, data.pass);
-	res.status()
+	res.status(201).json({"message":info.changes+" record created: ID "+info.lastInsertRowid+ " (201)"});
+
 
 });
 
